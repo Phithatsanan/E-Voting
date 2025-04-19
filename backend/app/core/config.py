@@ -5,7 +5,6 @@ from pydantic_settings import BaseSettings
 from pydantic import PostgresDsn, AnyHttpUrl
 from phe import paillier
 
-
 class Settings(BaseSettings):
     DATABASE_URL: str
     JWT_SECRET: str
@@ -19,9 +18,9 @@ class Settings(BaseSettings):
     EMAIL_FROM: str
     AUDIT_EXPORT_SECRET: str
 
-    # ✅ Move these inside the class!
-    PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = None
-    PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = None
+    # ✅ These must use Field with `default=None` to support complex types
+    PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = Field(default=None)
+    PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = Field(default=None)
 
     class Config:
         env_file = ".env"
@@ -31,7 +30,5 @@ class Settings(BaseSettings):
     def cors_origins_list(self) -> List[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
 
-
-# ✅ Now this will work
 settings = Settings()
 settings.PAILLIER_PUBLIC_KEY, settings.PAILLIER_PRIVATE_KEY = paillier.generate_paillier_keypair()
