@@ -19,19 +19,19 @@ class Settings(BaseSettings):
     EMAIL_FROM: str
     AUDIT_EXPORT_SECRET: str
 
-PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = None
-PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = None
+    # ✅ Move these inside the class!
+    PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = None
+    PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = None
 
-class Config:
+    class Config:
         env_file = ".env"
         case_sensitive = True
 
-@property
-def cors_origins_list(self) -> List[str]:
+    @property
+    def cors_origins_list(self) -> List[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
-    
 
+
+# ✅ Now this will work
 settings = Settings()
-
-# Generate Paillier key pair at startup (in a real system, manage keys securely)
 settings.PAILLIER_PUBLIC_KEY, settings.PAILLIER_PRIVATE_KEY = paillier.generate_paillier_keypair()
