@@ -19,16 +19,17 @@ class Settings(BaseSettings):
     EMAIL_FROM: str
     AUDIT_EXPORT_SECRET: str
 
-    class Config:
+PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = None
+PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = None
+
+class Config:
         env_file = ".env"
         case_sensitive = True
 
-    @property
-    def cors_origins_list(self) -> List[str]:
+@property
+def cors_origins_list(self) -> List[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
     
-PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = None
-PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = None
 
 settings = Settings()
 
