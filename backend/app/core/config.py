@@ -1,9 +1,10 @@
 # backend/app/core/config.py
 import os
 from typing import List, Optional
+from pydantic import PostgresDsn, AnyHttpUrl, Field
 from pydantic_settings import BaseSettings
-from pydantic import PostgresDsn, AnyHttpUrl
 from phe import paillier
+
 
 class Settings(BaseSettings):
     DATABASE_URL: str
