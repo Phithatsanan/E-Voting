@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> List[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
+    
+PAILLIER_PUBLIC_KEY: Optional[paillier.PaillierPublicKey] = None
+PAILLIER_PRIVATE_KEY: Optional[paillier.PaillierPrivateKey] = None
 
 settings = Settings()
 
